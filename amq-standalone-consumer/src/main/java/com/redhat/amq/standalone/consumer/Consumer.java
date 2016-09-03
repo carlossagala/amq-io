@@ -39,7 +39,6 @@ public class Consumer {
             MessageConsumer messageConsumer = session.createConsumer(destination);
 
             while (true) {
-                System.out.println("RX...");
                 Message message = messageConsumer.receive();
 
                 if (message instanceof TextMessage) {
@@ -48,7 +47,8 @@ public class Consumer {
                     if ("END".equals(body))
                         break;
 
-                    System.out.println(body);
+                    Integer id = message.getIntProperty("id");
+                    System.out.println(String.format("ID: %d - Time: %s", id, body));
                 }
             }
         } catch (IOException e) {

@@ -9,6 +9,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Date;
 import java.util.Properties;
 
 public class Producer {
@@ -36,22 +37,21 @@ public class Producer {
             connection = connectionFactory.createConnection(properties.getProperty("user"), properties.getProperty("password"));
             connection.start();
 
-            Session session = connection.createSession(false, Session.AUTO_ACKNOWLEDGE);
+            Session session = connection.createSession(false, Session.CLIENT_ACKNOWLEDGE);
             Destination destination = new ActiveMQQueue(properties.getProperty("queue"));
 
             MessageProducer messageProducer = session.createProducer(destination);
-            messageProducer.setDeliveryMode(DeliveryMode.NON_PERSISTENT);
+            messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
 
             Integer messageCount = Integer.parseInt(properties.getProperty("messageCount"));
             
-            for (int i = 0; i < messageCount; i++) {
-                TextMessage msg = session.createTextMessage("Test!");
+            for (int i = 1; i <= messageCount; i++) {
+                Date date = new Date();
+                TextMessage msg = session.createTextMessage(date.toString());
                 msg.setIntProperty("id", i);
                 messageProducer.send(msg);
 
-                if( (i % 1000) == 0) {
-                    System.out.println(String.format("Sent %d messages", i));
-                }
+                Thread.sleep(1000);
             }
 
             messageProducer.send(session.createTextMessage("END"));
