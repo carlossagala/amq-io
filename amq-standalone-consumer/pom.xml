@@ -33,20 +33,15 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-
             </plugin>
+
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <configuration>
-                    <archive>
-                        <manifest>
-                            <addClasspath>true</addClasspath>
-                            <mainClass>com.redhat.amq.standalone.consumer.Consumer</mainClass>
-                        </manifest>
-                    </archive>
-                    <outputDirectory>../standalone-app</outputDirectory>
-                </configuration>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>1.4.0</version>
+              <configuration>
+                <mainClass>com.redhat.amq.standalone.Consumer</mainClass>
+              </configuration>
             </plugin>
         </plugins>
     </build>
