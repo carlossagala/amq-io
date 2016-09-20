@@ -42,6 +42,19 @@
                     <mainClass>com.redhat.amq.standalone.Producer</mainClass>
                 </configuration>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <addClasspath>true</addClasspath>
+                            <mainClass>com.redhat.amq.standalone.Producer</mainClass>
+                        </manifest>
+                    </archive>
+                    <outputDirectory>../app</outputDirectory>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
 </project>

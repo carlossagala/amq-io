@@ -16,7 +16,7 @@ public class Consumer {
         Connection connection = null;
 
         try {
-            Properties properties = consumer.loadProperties("consumer.properties");
+            Properties properties = consumer.loadProperties(args[0]);
             String trustStorePassword = properties.getProperty("trustStorePassword");
 
             if (trustStorePassword != null && !trustStorePassword.isEmpty()) {
@@ -48,7 +48,7 @@ public class Consumer {
                         break;
 
                     Integer id = message.getIntProperty("id");
-                    System.out.println(String.format("ID: %d - Time: %s", id, body));
+                    System.out.println(String.format("ID: %d - Datetime: %s", id, body));
                 }
             }
         } catch (IOException e) {

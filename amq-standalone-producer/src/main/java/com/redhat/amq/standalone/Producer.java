@@ -20,7 +20,7 @@ public class Producer {
         Connection connection = null;
 
         try {
-            Properties properties = producer.loadProperties("producer.properties");
+            Properties properties = producer.loadProperties(args[0]);
             String trustStorePassword = properties.getProperty("trustStorePassword");
 
             if (trustStorePassword != null && !trustStorePassword.isEmpty()) {
