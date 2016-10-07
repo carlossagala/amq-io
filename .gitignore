@@ -1,5 +1,5 @@
 *.iml
 .idea
 target
-standalone-app/amq-standalone-consumer-*
-standalone-app/amq-standalone-producer-*
+bin/amq-standalone-consumer-*
+bin/amq-standalone-producer-*
