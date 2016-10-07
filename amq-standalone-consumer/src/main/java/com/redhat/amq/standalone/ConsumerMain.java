@@ -1,22 +1,25 @@
 package com.redhat.amq.standalone;
 
+import com.redhat.amq.standalone.util.PropertiesUtil;
+
 import javax.jms.*;
 import java.io.*;
+import java.util.Enumeration;
 import java.util.Properties;
 
 public class ConsumerMain {
 
     public static void main(String[] args) throws JMSException {
-        ConsumerMain consumerMain = new ConsumerMain();
+        Properties properties;
+        Properties jmsProperties;
 
-        Properties properties = null;
         MessageReceiver receiver = null;
 
         try {
             if (args.length > 0)
-                properties = consumerMain.loadPropertiesFromFile(args[0]);
+                properties = PropertiesUtil.loadPropertiesFromFile(args[0]);
             else
-                properties = consumerMain.loadPropertiesFromResources();
+                properties = PropertiesUtil.loadPropertiesFromResources("consumer.properties");
 
             String trustStore = properties.getProperty("trustStore", "");
             String trustStorePassword = properties.getProperty("trustStorePassword", "");
@@ -24,17 +27,35 @@ public class ConsumerMain {
             String password = properties.getProperty("password", "");
             String brokerUrl = properties.getProperty("brokerUrl", "");
             String queue = properties.getProperty("queue", "");
+            String jmsCustomPropertiesPath = properties.getProperty("jmsCustomProperties", "");
+
+            if (jmsCustomPropertiesPath.isEmpty())
+                jmsProperties = PropertiesUtil.loadPropertiesFromResources("jms.properties");
+            else
+                jmsProperties = PropertiesUtil.loadPropertiesFromFile(jmsCustomPropertiesPath);
 
             receiver = new MessageReceiver(brokerUrl, queue, user, password, trustStore, trustStorePassword);
 
             while (true) {
-                String message = receiver.receiveMessage();
+                TextMessage message = receiver.receiveMessage();
 
                 if (message != null) {
-                    if (message.equals("END"))
+                    if (message.getText().equals("END"))
                         break;
-                    else
-                        System.out.println(message);
+                    else {
+                        System.out.println("--- Message received");
+                        System.out.println("Message content: " + message.getText());
+
+                        // Print all the custom properties
+                        Enumeration e = jmsProperties.keys();
+
+                        while (e.hasMoreElements()) {
+                            String key = (String) e.nextElement();
+                            System.out.println("Message property: " + key + ": " + message.getObjectProperty(key));
+                        }
+
+                        System.out.println("--- End");
+                    }
                 }
             }
 
@@ -46,23 +67,5 @@ public class ConsumerMain {
             if (receiver != null)
                 receiver.close();
         }
-    }
-
-    public Properties loadPropertiesFromFile(String filename) throws IOException {
-        InputStream is = new FileInputStream(filename);
-
-        Properties properties = new Properties();
-        properties.load(is);
-
-        return properties;
-    }
-
-    public Properties loadPropertiesFromResources() throws IOException {
-        InputStream is = this.getClass().getClassLoader().getResourceAsStream("consumer.properties");
-
-        Properties properties = new Properties();
-        properties.load(is);
-
-        return properties;
     }
 }

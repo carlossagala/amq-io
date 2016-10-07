@@ -1,18 +1,18 @@
 package com.redhat.amq.standalone;
 
+import com.redhat.amq.standalone.util.FileMessageUtil;
 import com.redhat.amq.standalone.util.PropertiesUtil;
 
 import javax.jms.*;
-import java.io.FileInputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.util.Date;
 import java.util.Properties;
 
 public class ProducerMain {
 
     public static void main(String[] args) throws JMSException {
         Properties properties;
+        Properties jmsHeaders;
+
         MessageSender sender = null;
 
         try {
@@ -21,6 +21,7 @@ public class ProducerMain {
             else
                 properties = PropertiesUtil.loadPropertiesFromResources("producer.properties");
 
+            // Get the properties
             String trustStore = properties.getProperty("trustStore", "");
             String trustStorePassword = properties.getProperty("trustStorePassword", "");
             String user = properties.getProperty("user", "");
@@ -28,12 +29,22 @@ public class ProducerMain {
             String brokerUrl = properties.getProperty("brokerUrl", "");
             String queue = properties.getProperty("queue", "");
             Integer messageCount = Integer.parseInt(properties.getProperty("messageCount", String.valueOf(0)));
+            String message = properties.getProperty("message", "");
+            String messageFilePath = properties.getProperty("messageFilePath", "");
+            String jmsCustomProperties = properties.getProperty("jmsCustomProperties", "");
+
+            if (jmsCustomProperties.isEmpty())
+                jmsHeaders = PropertiesUtil.loadPropertiesFromResources("jms.properties");
+            else
+                jmsHeaders = PropertiesUtil.loadPropertiesFromFile(jmsCustomProperties);
+
+            if (!messageFilePath.isEmpty())
+                message = FileMessageUtil.getMessageFromFile(messageFilePath);
 
             sender = new MessageSender(brokerUrl, queue, user, password, trustStore, trustStorePassword);
 
             for (int i = 1; i <= messageCount; i++) {
-                Date now = new Date();
-                sender.sendMessage(now.toString());
+                sender.sendMessage(message, jmsHeaders);
 
                 Thread.sleep(1000);
             }

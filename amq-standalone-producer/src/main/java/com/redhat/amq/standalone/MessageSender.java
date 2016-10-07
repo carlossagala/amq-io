@@ -5,6 +5,8 @@ import org.apache.activemq.ActiveMQSslConnectionFactory;
 import org.apache.activemq.command.ActiveMQQueue;
 
 import javax.jms.*;
+import java.util.Enumeration;
+import java.util.Properties;
 
 public class MessageSender {
 
@@ -43,8 +45,27 @@ public class MessageSender {
         messageProducer.setDeliveryMode(DeliveryMode.PERSISTENT);
     }
 
+    public MessageSender(String brokerUrl,
+                         String queue,
+                         String user,
+                         String password) throws Exception {
+        this(brokerUrl, queue, user, password, "", "");
+    }
+
     public void sendMessage(String message) throws JMSException {
         TextMessage msg = session.createTextMessage(message);
+        messageProducer.send(msg);
+    }
+
+    public void sendMessage(String message, Properties properties) throws JMSException {
+        TextMessage msg = session.createTextMessage(message);
+        Enumeration e = properties.keys();
+
+        while (e.hasMoreElements()) {
+            String key = (String) e.nextElement();
+            msg.setObjectProperty(key, properties.getProperty(key));
+        }
+
         messageProducer.send(msg);
     }
 

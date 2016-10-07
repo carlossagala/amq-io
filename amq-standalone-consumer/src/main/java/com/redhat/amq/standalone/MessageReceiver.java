@@ -42,13 +42,20 @@ public class MessageReceiver {
         messageConsumer = session.createConsumer(destination);
     }
 
-    public String receiveMessage() throws JMSException {
+    public MessageReceiver(String brokerUrl,
+                           String queue,
+                           String user,
+                           String password) throws Exception {
+        this(brokerUrl, queue, user, password, "", "");
+    }
+
+    public TextMessage receiveMessage() throws JMSException {
         Message message = messageConsumer.receive();
 
         if (message instanceof TextMessage) {
-            String body = ((TextMessage) message).getText();
-            return body;
+            return (TextMessage) message;
         }
+
         return null;
     }
 
