@@ -39,7 +39,7 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <mainClass>com.redhat.amq.standalone.Producer</mainClass>
+                    <mainClass>com.redhat.amq.standalone.ProducerMain</mainClass>
                 </configuration>
             </plugin>
             <plugin>
@@ -49,10 +49,10 @@
                     <archive>
                         <manifest>
                             <addClasspath>true</addClasspath>
-                            <mainClass>com.redhat.amq.standalone.Producer</mainClass>
+                            <mainClass>com.redhat.amq.standalone.ProducerMain</mainClass>
                         </manifest>
                     </archive>
-                    <outputDirectory>../app</outputDirectory>
+                    <outputDirectory>../bin</outputDirectory>
                 </configuration>
             </plugin>
         </plugins>
