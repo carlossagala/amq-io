@@ -1,16 +1,17 @@
-# amq-standalone-consumer
+# amq-standalone-producer
 
-This example contains an A-MQ Standalone Java Consumer to be used with any broker running at a given URI.
+This example contains an A-MQ Standalone Java Producer to be used with any broker running at a given URI.
 
 It allows several configuration flavors:
 
 * SSL connection
 * Basic authentication with the broker
-* List of custom JMS properties in the message received
+* Content of the message to be sent loaded from a file or a property
+* List of custom JMS properties in the message sent
 
 ## Properties
 
-### consumer.properties
+### producer.properties
 
     # Credentials
     user=admin
@@ -54,11 +55,11 @@ This example can be used in two different ways:
 
 One of the tasks when the example is built is generate a jar file located in the bin folder in the root directory.
 
-    java -jar ../bin/amq-standalone-consumer-x.x.x.jar ../etc/consumer.properties
+    java -jar ../bin/amq-standalone-producer-x.x.x.jar ../etc/consumer.properties
 
 ### Executing with Maven Exec plugin
 
     mvn exec:java
 
-**Note**: this way of executing will use the **consumer.properties** located in the resources folder of the project.
+**Note**: this way of executing will use the **producer.properties** located in the resources folder of the project.
 
