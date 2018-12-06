@@ -2,8 +2,8 @@
 
 Red Hat JBoss A-MQ Producer/Consumer Examples
 
-* [OSGI Camel Consumer] (https://github.com/leandroberetta/amq-io/tree/master/amq-osgi-camel-consumer)
-* [OSGI Camel Producer] (https://github.com/leandroberetta/amq-io/tree/master/amq-osgi-camel-producer)
-* [Standalone Java Consumer] (https://github.com/leandroberetta/amq-io/tree/master/amq-standalone-consumer)
-* [Standalone Java Producer] (https://github.com/leandroberetta/amq-io/tree/master/amq-standalone-producer)
+* [OSGI Camel Consumer](amq-osgi-camel-consumer)
+* [OSGI Camel Producer](amq-osgi-camel-producer)
+* [Standalone Java Consumer](amq-standalone-consumer)
+* [Standalone Java Producer](amq-standalone-producer)
 
