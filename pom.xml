@@ -11,8 +11,6 @@
   <name>Red Hat :: JBoss A-MQ Producer/Consumer Examples</name>
 
   <modules>
-    <module>amq-osgi-camel-consumer</module>
-    <module>amq-osgi-camel-producer</module>
     <module>amq-standalone-consumer</module>
     <module>amq-standalone-producer</module>
   </modules>

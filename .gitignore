@@ -1,5 +1,8 @@
 *.iml
 .idea
 target
-bin/amq-standalone-consumer-*
-bin/amq-standalone-producer-*
+.project
+.settings
+.classpath
+.DS_Store
+*.jar
